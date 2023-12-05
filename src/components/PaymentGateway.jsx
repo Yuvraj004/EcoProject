@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function PaymentGateway() {
+  const [medicineData, setMedicineData] = useState([
+    { id: 1, name: "Medicine A", price: 10.99 },
+    { id: 2, name: "Medicine B", price: 15.99 },
+    { id: 3, name: "Medicine C", price: 20.49 },
+    // Add more items as needed
+  ]);
 
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (medicine) => {
+    setCartItems([...cartItems, medicine]);
+  };
 
   return (
     <div>

@@ -9,7 +9,7 @@ import CTA from "../CTA";
 import { Link,useNavigate } from "react-router-dom";
 import Appointment from '../Appointments/appointment';
 import patientimg from "../../assets/patient.png";
-import "./login.css"
+import "./Login.css"
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
