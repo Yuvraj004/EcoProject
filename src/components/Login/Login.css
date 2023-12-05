@@ -1,9 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap');
+.formlogin{
+
+  font-family: 'Alegreya', serif;
+  font-size: 26px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
 .loginElement{
     font-size: 24px !important;
     margin-bottom: 20px;
 }
 
 .loginForm{
+  background: none !important;
     max-width: 700px;
      /* margin: 0 auto; */
     padding: 20px 20px;

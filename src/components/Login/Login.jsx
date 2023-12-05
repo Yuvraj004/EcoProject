@@ -6,15 +6,15 @@ const LOGIN_URL = "/auth";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import CTA from "../CTA";
-import { Link,useNavigate } from "react-router-dom";
-import Appointment from '../Appointments/appointment';
+import { Link, useNavigate } from "react-router-dom";
+import Appointment from "../Appointments/appointment";
 import patientimg from "../../assets/patient.png";
-import "./Login.css"
+import "./Login.css";
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
   const errRef = useRef();
-  const history = useNavigate()
+  const history = useNavigate();
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -22,12 +22,13 @@ const Login = () => {
   const [patient, setPatient] = useState("");
   const [doctor, setDoctor] = useState("");
   const [admin, setAdmin] = useState("");
+
   useEffect(() => {
     userRef.current.focus();
-    if(success==true){
+    if (success) {
       history("/afterlogin");
     }
-  }, []);
+  }, [success]);
 
   useEffect(() => {
     setErrMsg("");
@@ -38,27 +39,23 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        LOGIN_URL,
+        "/auth",
         JSON.stringify({ user, pwd }),
         {
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           },
-          // withCredentials: true,
         }
       );
-      console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
+
       const accessToken = response?.data?.accessToken;
-      console.log(accessToken);
       const roles = response?.data?.roles;
       setAuth({ user, pwd, roles, accessToken });
       setUser("");
       setPwd("");
       setSuccess(true);
     } catch (err) {
-      console.log(err);
       if (!err?.response) {
         setErrMsg("No Server Response");
       } else if (err.response?.status === 400) {
@@ -73,21 +70,25 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className="bg-primary w-full overflow-hidden loginDiv">
       {success ? (
         <section>
           {history("/afterlogin")}
-          <Appointment/>
+          <Appointment />
         </section>
       ) : (
-        <div className="bg-primary w-full overflow-hidden loginDiv ">
+        <>
           <div className={`${styles.paddingX} ${styles.flexCenter}`}>
             <div className={`${styles.boxWidth}`}>
               <Navbar />
             </div>
           </div>
           <div className="formlogin">
-            <img src={patientimg} alt="Image of a person" style={{ float: "left" }} />
+            <img
+              src={patientimg}
+              alt="Image of a person"
+              className="float-left"
+            />
 
             <form
               className="loginForm"
@@ -106,78 +107,94 @@ const Login = () => {
               >
                 {errMsg}
               </p>
-              <h1 className="loginElement">Sign In</h1>
-              <label htmlFor="username" className="inputLabels">Username:</label>
+              <h1 className="loginElement">SIGN IN</h1>
+              <label htmlFor="username" className="inputLabels">
+                Username:
+              </label>
               <input
                 type="text"
-                style={{ color: "black" }}
                 id="username"
                 ref={userRef}
                 autoComplete="off"
                 onChange={(e) => setUser(e.target.value)}
                 value={user}
                 required
+                className="text-black"
               />
 
-              <label htmlFor="password" className="inputLabels">Password:</label>
+              <label htmlFor="password" className="inputLabels">
+                Password:
+              </label>
               <input
                 type="password"
                 id="password"
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
                 required
-                style={{ color: "black" }}
+                className="text-black"
               />
+
               <label className="inputLabels">Login For:</label>
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <input
-                  type="radio"
-                  id="Patient"
-                  onChange={(e) => setPatient(e.target.value)}
-                  value={patient}
-                  required
-                />
-                &nbsp;
-                <label htmlFor="type" className="inputLabels">Patient</label>&nbsp;&nbsp;&nbsp;
-                <br></br>
-                <input
-                  type="radio"
-                  id="doctor"
-                  name="doctor"
-                  onChange={(e) => setPatient(e.target.value)}
-                  value={patient}
-                />
-                &nbsp;
-                <label htmlFor="doctor" className="inputLabels">Doctor</label>&nbsp;&nbsp;&nbsp;
-                <br />
-                <input
-                  type="radio"
-                  id="admin"
-                  name="admin"
-                  onChange={(e) => setAdmin(e.target.value)}
-                  value={admin}
-                />
-                &nbsp;
-                <label htmlFor="admin" className="inputLabels">Admin</label>
+              <div className="flex flex-col justify-between">
+                <div className="flex flex-row" >
+                  <input
+                    type="radio"
+                    id="Patient"
+                    onChange={(e) => setPatient(e.target.value)}
+                    value={patient}
+                    required
+                  />
+                  <label htmlFor="type" className="inputLabels">
+                    Patient
+                  </label>
+                </div>
+                <div className="flex flex-row">
+                  <input
+                    type="radio"
+                    id="doctor"
+                    name="doctor"
+                    onChange={(e) => setPatient(e.target.value)}
+                    value={patient}
+                  />
+                  <label htmlFor="doctor" className="inputLabels">
+                    Doctor
+                  </label>
+                </div>
+                <div className="flex flex-row">
+                  <input
+                    type="radio"
+                    id="admin"
+                    name="admin"
+                    onChange={(e) => setAdmin(e.target.value)}
+                    value={admin}
+                  />
+                  <label htmlFor="admin" className="inputLabels">
+                    Admin
+                  </label>
+                </div>
               </div>
-              <button ><a href=" http://localhost:3000">Sign In</a></button>
-              <p>
-                Need an Account?
-                <br />
-                <span className="lines">
-                  {/*put router link here*/}
-                  <a href="/register" style={{ marginLeft: "2rem" }}>
+
+              <button className="loginBtn">
+                <Link to="http://localhost:3000">Sign In</Link>
+              </button>
+              
+              <p className="mt-4">
+                Need an Account?&nbsp;
+                {/* <br /> */}
+                <span className="loginBtn">
+                  <Link to="/register" >
                     Sign Up
-                  </a>
+                  </Link>
                 </span>
               </p>
             </form>
+            
           </div>
           <CTA />
           <Footer />
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 
