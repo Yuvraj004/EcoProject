@@ -24,7 +24,7 @@ const Navbar = () => {
         <li
           style={{ color: "white", marginLeft: "15px" }}
         >
-          <a href="#features" className="navelement">Features</a>
+          <a href="/#features" className="navelement">Features</a>
         </li>
         <li
           style={{ color: "white", marginLeft: "15px" }}
